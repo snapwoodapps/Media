@@ -18,7 +18,7 @@ import Photos
 public struct Photo: MediaProtocol {
     static var imageManager: ImageManager = PHImageManager.default()
 
-    private var phAsset: PHAsset? { phAssetWrapper.value }
+    public var phAsset: PHAsset? { phAssetWrapper.value }
 
     public typealias MediaSubtype = Photo.Subtype
     public typealias MediaFileType = Photo.FileType
@@ -303,9 +303,11 @@ public extension Photo {
     ///
     static func with(identifier: Media.Identifier<Self>) throws -> Photo? {
         let options = PHFetchOptions()
+        
         let mediaTypeFilter: Media.Filter<Photo.Subtype> = .localIdentifier(identifier.localIdentifier)
         let predicate = NSPredicate(format: "mediaType = %d", MediaType.image.rawValue)
         options.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [predicate, mediaTypeFilter.predicate])
+        options.includeAssetSourceTypes = [.typeUserLibrary, .typeCloudShared, .typeiTunesSynced]
 
         let photo = try PHAssetFetcher.fetchAsset(options: options) { $0.localIdentifier == identifier.localIdentifier && $0.mediaType == .image } as Photo?
         return photo

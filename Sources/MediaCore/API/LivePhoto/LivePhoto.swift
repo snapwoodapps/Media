@@ -16,7 +16,7 @@ public struct LivePhoto: MediaProtocol {
 
     static var livePhotoManager: LivePhotoManager = PHImageManager.default()
 
-    private var phAsset: PHAsset? { phAssetWrapper.value }
+    public var phAsset: PHAsset? { phAssetWrapper.value }
 
     public typealias MediaSubtype = LivePhoto.Subtype
     public typealias MediaFileType = LivePhoto.FileType
@@ -147,7 +147,8 @@ public extension LivePhoto {
         let mediaFilterPredicates = mediaFilter.map { $0.predicate }
         let mediaTypePredicate = NSPredicate(format: "mediaType = %d", MediaType.image.rawValue)
         options.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [mediaTypePredicate] + mediaFilterPredicates)
-
+        options.includeAssetSourceTypes = [.typeUserLibrary, .typeCloudShared, .typeiTunesSynced]
+        
         let livePhoto = try PHAssetFetcher.fetchAsset(options: options) { $0.localIdentifier == identifier.localIdentifier && $0.mediaType == .image && $0.mediaSubtypes.contains(.photoLive) } as LivePhoto?
         return livePhoto
     }

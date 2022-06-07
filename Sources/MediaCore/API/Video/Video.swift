@@ -16,7 +16,7 @@ public struct Video: MediaProtocol {
 
     static var videoManager: VideoManager = PHImageManager.default()
 
-    private var phAsset: PHAsset? { phAssetWrapper.value }
+    public var phAsset: PHAsset? { phAssetWrapper.value }
 
     public typealias MediaSubtype = Video.Subtype
     public typealias MediaFileType = Video.FileType
@@ -290,6 +290,7 @@ public extension Video {
         let mediaTypePredicate = NSPredicate(format: "mediaType = %d", MediaType.video.rawValue)
         let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [mediaTypePredicate, localIdentifierFilter.predicate])
         options.predicate = predicate
+        options.includeAssetSourceTypes = [.typeUserLibrary, .typeCloudShared, .typeiTunesSynced]
 
         let video = try PHAssetFetcher.fetchAsset(options: options) { $0.localIdentifier == identifier.localIdentifier && $0.mediaType == .video } as Video?
         return video

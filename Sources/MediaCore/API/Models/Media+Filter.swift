@@ -13,6 +13,7 @@ extension Media {
     ///
     public enum Filter<MediaSubtype> where MediaSubtype: MediaSubtypeProvider {
         case localIdentifier(_ localIdentifier: String)
+        case cloudIdentifier(_ cloudIdentifier: String)
         case creationDate(_ creationDate: Date)
         case modificationDate(_ modificationDate: Date)
         case mediaSubtypes(_ subtypes: [MediaSubtype])
@@ -30,6 +31,8 @@ extension Media.Filter: Hashable {
         switch self {
             case .localIdentifier(let localIdentifier):
                 hasher.combine(localIdentifier)
+            case .cloudIdentifier(let cloudIdentifier):
+                hasher.combine(cloudIdentifier)
             case .creationDate(let creationDate):
                 hasher.combine(creationDate)
             case .modificationDate(let modificationDate):
@@ -64,6 +67,8 @@ extension Media.Filter {
         switch self {
             case .localIdentifier(let localIdentifier):
                 return NSPredicate(format: "localIdentifier = %@", localIdentifier)
+            case .cloudIdentifier(let cloudIdentifier):
+                return NSPredicate(format: "cloudIdentifier = %@", cloudIdentifier)
             case .creationDate(let creationDate):
                 return NSPredicate(format: "creationDate = %@", creationDate as NSDate)
             case .modificationDate(let modificationDate):

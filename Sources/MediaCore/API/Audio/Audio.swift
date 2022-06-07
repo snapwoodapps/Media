@@ -14,7 +14,7 @@ public struct Audio: MediaProtocol {
     public typealias MediaSubtype = Audio.Subtype
     public typealias MediaFileType = Audio.FileType
 
-    private var phAsset: PHAsset? { phAssetWrapper.value }
+    public var phAsset: PHAsset? { phAssetWrapper.value }
 
     /// Box type internally used to store a reference
     /// to the underlying `PHAsset`

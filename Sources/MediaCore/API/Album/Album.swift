@@ -13,7 +13,7 @@ import Photos
 public struct Album {
     let phAssetCollectionWrapper: PHAssetCollectionWrapper
 
-    var phAssetCollection: PHAssetCollection? { phAssetCollectionWrapper.value }
+    public var phAssetCollection: PHAssetCollection? { phAssetCollectionWrapper.value }
 
     /// Identifier resolves to the local identifier of the underlying
     /// `PHAssetCollection`
