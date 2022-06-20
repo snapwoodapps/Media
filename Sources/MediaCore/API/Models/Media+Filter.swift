@@ -17,6 +17,7 @@ extension Media {
         case creationDate(_ creationDate: Date)
         case modificationDate(_ modificationDate: Date)
         case mediaSubtypes(_ subtypes: [MediaSubtype])
+        case notMediaSubtypes(_ subtypes: [MediaSubtype])
         case duration(_ duration: TimeInterval)
         case pixelWidth(_ pixelWidth: Int)
         case pixelHeight(_ pixelHeight: Int)
@@ -38,6 +39,9 @@ extension Media.Filter: Hashable {
             case .modificationDate(let modificationDate):
                 hasher.combine(modificationDate)
             case .mediaSubtypes(let subtypes):
+                let rawValues = subtypes.compactMap { $0.mediaSubtype }.map { $0.rawValue }
+                hasher.combine(rawValues)
+            case .notMediaSubtypes(let subtypes):
                 let rawValues = subtypes.compactMap { $0.mediaSubtype }.map { $0.rawValue }
                 hasher.combine(rawValues)
             case .duration(let duration):
@@ -76,6 +80,11 @@ extension Media.Filter {
             case .mediaSubtypes(let subtypes):
                 let predicateFormatStatements = subtypes.map { _ in "(mediaSubtypes & %d) != 0" }
                 let predicateFormatString = predicateFormatStatements.joined(separator: " || ")
+                let subtypeRawValues = subtypes.compactMap { $0.mediaSubtype }.map { $0.rawValue }
+                return NSPredicate(format: predicateFormatString, argumentArray: subtypeRawValues)
+            case .notMediaSubtypes(let subtypes):
+                let predicateFormatStatements = subtypes.map { _ in "(mediaSubtypes & %d) == 0" }
+                let predicateFormatString = predicateFormatStatements.joined(separator: " && ")
                 let subtypeRawValues = subtypes.compactMap { $0.mediaSubtype }.map { $0.rawValue }
                 return NSPredicate(format: predicateFormatString, argumentArray: subtypeRawValues)
             case .duration(let duration):

@@ -12,6 +12,7 @@ extension Photo {
     public enum Subtype: CaseIterable {
         case panorama
         case hdr
+        case live
         case screenshot
         case depthEffect
     }
@@ -26,6 +27,8 @@ extension Photo.Subtype: MediaSubtypeProvider {
             return .photoPanorama
         case .hdr:
             return .photoHDR
+        case .live:
+            return .photoLive
         case .screenshot:
             return .photoScreenshot
         case .depthEffect:

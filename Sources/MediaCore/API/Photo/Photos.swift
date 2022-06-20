@@ -24,6 +24,12 @@ extension Media {
         @FetchAssets(filter: [.mediaSubtypes([.live])],
                      sort: [Media.Sort(key: .creationDate, ascending: false)])
         public static var live: [LivePhoto]
+        
+        @FetchAssets(filter: [.notMediaSubtypes([.live])], sort: [Media.Sort(key: .creationDate, ascending: false)])
+        public static var notlive: [Photo]
+
+        @FetchAllAssets
+        public static var allMedia: [AnyMedia]
 
         /// All panorama photos in the library
         /// sorted by `creationDate descending`
