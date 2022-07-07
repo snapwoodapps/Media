@@ -204,6 +204,7 @@ public extension Video {
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true
         options.deliveryMode = deliveryMode
+        options.version = .current
 
         Self.videoManager.requestAVAsset(forVideo: phAsset, options: options) { asset, _, info in
             PHImageManager.handleResult(result: (asset, info), completion)
