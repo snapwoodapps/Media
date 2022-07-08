@@ -225,6 +225,7 @@ public extension Photo {
     ///
     func uiImage(targetSize: CGSize,
                  contentMode: PHImageContentMode,
+                 synchronous: Bool,
                  _ completion: @escaping UIImageCompletion) {
         guard let phAsset = phAsset else {
             completion(.failure(Media.Error.noUnderlyingPHAssetFound))
@@ -233,6 +234,7 @@ public extension Photo {
 
         let options = PHImageRequestOptions()
         options.isNetworkAccessAllowed = true
+        options.isSynchronous = synchronous
 
         Self.imageManager.requestImage(for: phAsset,
                                        targetSize: targetSize,
