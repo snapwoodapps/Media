@@ -91,4 +91,29 @@ extension MediaProtocol {
             }
         }
     }
+    
+// TODO finish implementing multi delete
+//    public func delete(items: [MediaProtocol], completion: @escaping ResultVoidCompletion) {
+//        let phAssets: NSArray = []
+//        for item in items {
+//            guard let phAsset = item.phAssetWrapper.value else {
+//                completion(.failure(Media.Error.noUnderlyingPHAssetFound))
+//                return
+//            }
+//
+//            phAsset.
+//        }
+//        PHChanger.request({
+//            Self.assetChangeRequest.deleteAssets(phAssets)
+//            return nil
+//        }) { result in
+//            switch result {
+//                case .success:
+//                    self.phAssetWrapper.value = nil
+//                    completion(.success(()))
+//                case .failure(let error):
+//                    completion(.failure(error))
+//            }
+//        }
+//    }
 }
