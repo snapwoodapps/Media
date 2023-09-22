@@ -7,9 +7,9 @@
 
 import AVFoundation
 
+#if !os(tvOS)
 @available(iOS 10, *)
 @available(macCatalyst 14, *)
-@available(tvOS, unavailable)
 extension AVCaptureSession {
     enum Error: Swift.Error {
         /// Thrown if the given input could not be added
@@ -20,3 +20,4 @@ extension AVCaptureSession {
         case noDefaultAudioDevice
     }
 }
+#endif

@@ -36,13 +36,14 @@ public struct Media {
         }
     }
 
+#if !os(tvOS)
     /// Returns the current camera permission.
     ///
     @available(macCatalyst 14, *)
-    @available(tvOS, unavailable)
     public static var currentCameraPermission: AVAuthorizationStatus {
         AVCaptureDevice.authorizationStatus(for: .video)
     }
+#endif
 
     /// Requests the user's permission to the photo library
     ///
@@ -73,11 +74,11 @@ public struct Media {
         }
     }
 
+#if !os(tvOS)
     /// Requests the user's permission to access the camera.
     ///
     /// - Parameter completion: A closure which gets a `Result` (`Void` on `success` and `Error` on `failure`).
     @available(macCatalyst 14, *)
-    @available(tvOS, unavailable)
     public static func requestCameraPermission(_ completion: @escaping RequestPermissionCompletion) {
         AVCaptureDevice.requestAccess(for: .video) { success in
             DispatchQueue.main.async {
@@ -89,4 +90,5 @@ public struct Media {
             }
         }
     }
+#endif
 }
