@@ -17,6 +17,9 @@ extension Media {
         ///
         @FetchAssets(sort: [Media.Sort(key: .creationDate, ascending: false)])
         public static var all: [Photo]
+        
+        @FetchAllAssets(sort: [Media.Sort(key: .creationDate, ascending: false)], includeOnlyFavorites: true)
+        public static var favorites: [AnyMedia]
 
         /// All live photos in the library
         /// sorted by `creationDate descending`

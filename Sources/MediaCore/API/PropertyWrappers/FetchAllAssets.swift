@@ -17,6 +17,7 @@ public struct FetchAllAssets {
     private var assetCollection: PHAssetCollection?
     private let options = PHFetchOptions()
     private let defaultSort: Media.Sort<Media.SortKey> = Media.Sort(key: .creationDate, ascending: false)
+    private let favoritesPredicate: NSPredicate = NSPredicate(format: "favorite == YES")
 
     /// Wrapped array of `AnyMedia` instances.
     public var wrappedValue: [AnyMedia] {
@@ -58,7 +59,8 @@ public struct FetchAllAssets {
         sort: Set<Media.Sort<Media.SortKey>> = [],
         fetchLimit: Int = 0,
         includeAllBurstAssets: Bool = false,
-        includeHiddenAssets: Bool = false
+        includeHiddenAssets: Bool = false,
+        includeOnlyFavorites: Bool = false
     ) {
         self.assetCollection = assetCollection
 
@@ -68,6 +70,10 @@ public struct FetchAllAssets {
         if !sortKeys.isEmpty {
             let sortDescriptors = sortKeys.map { $0.sortDescriptor }
             options.sortDescriptors = sortDescriptors
+        }
+        
+        if(includeOnlyFavorites) {
+            options.predicate = favoritesPredicate
         }
 
         options.fetchLimit = fetchLimit

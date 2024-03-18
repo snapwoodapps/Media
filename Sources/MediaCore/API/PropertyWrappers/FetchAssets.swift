@@ -15,6 +15,7 @@ public struct FetchAssets<T: MediaProtocol> {
     private var assetCollection: PHAssetCollection?
     private let options = PHFetchOptions()
     private let mediaTypePredicate: NSPredicate = NSPredicate(format: "mediaType = %d", T.type.rawValue)
+    private let favoritesPredicate: NSPredicate = NSPredicate(format: "favorite == YES")
     private let defaultSort: Media.Sort<Media.SortKey> = Media.Sort(key: .creationDate, ascending: false)
 
     /// Wrapped array of objects conforming to the `MediaProtocol`
@@ -51,13 +52,16 @@ public struct FetchAssets<T: MediaProtocol> {
         sort: Set<Media.Sort<Media.SortKey>> = [],
         fetchLimit: Int = 0,
         includeAllBurstAssets: Bool = false,
-        includeHiddenAssets: Bool = false
+        includeHiddenAssets: Bool = false,
+        includeOnlyFavorites: Bool = false
     ) {
         self.assetCollection = assetCollection
 
         if !filter.isEmpty {
             let predicates = filter.map { $0.predicate }
             options.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates + [mediaTypePredicate])
+        } else if(includeOnlyFavorites) {
+            options.predicate = favoritesPredicate
         } else {
             options.predicate = mediaTypePredicate
         }
