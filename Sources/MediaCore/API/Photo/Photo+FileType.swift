@@ -14,6 +14,7 @@ extension Photo {
         case avci
         case heic
         case heif
+        case dng
         case jpg
         case tif
     }
@@ -24,7 +25,7 @@ extension Photo.FileType: PathExtensionsProvider {
     ///
     public var pathExtensions: [String] {
         switch self {
-        case .avci, .heic, .heif:
+            case .avci, .heic, .heif, .dng:
             return [rawValue]
         case .jpg:
             return [rawValue, "jpeg"]
@@ -42,6 +43,8 @@ extension Photo.FileType {
         switch self {
         case .avci:
             return AVFileType.avci
+        case .dng:
+            return AVFileType.dng
         case .heic:
             return AVFileType.heic
         case .heif:
