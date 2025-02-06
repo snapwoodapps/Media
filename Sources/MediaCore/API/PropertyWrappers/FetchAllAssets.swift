@@ -41,7 +41,7 @@ public struct FetchAllAssets {
     /// (sort by `creationDate descending`).
     ///
     public init() {
-        options.sortDescriptors = [defaultSort.sortDescriptor]
+//        options.sortDescriptors = [defaultSort.sortDescriptor]
     }
 
     /// Initializes the property wrapper using the given sort descriptors
@@ -63,14 +63,14 @@ public struct FetchAllAssets {
         includeOnlyFavorites: Bool = false
     ) {
         self.assetCollection = assetCollection
-
-        var sortKeys = sort
-        sortKeys.insert(defaultSort)
-
-        if !sortKeys.isEmpty {
-            let sortDescriptors = sortKeys.map { $0.sortDescriptor }
-            options.sortDescriptors = sortDescriptors
-        }
+        
+//        var sortKeys = sort
+//        sortKeys.insert(defaultSort)
+//
+//        if !sortKeys.isEmpty {
+//            let sortDescriptors = sortKeys.map { $0.sortDescriptor }
+//            options.sortDescriptors = sortDescriptors
+//        }
         
         if(includeOnlyFavorites) {
             options.predicate = favoritesPredicate
