@@ -264,7 +264,9 @@ public extension Video {
                         case .cancelled:
                             timer.invalidate()
                             completion(.failure(exportSession.error ?? Media.Error.cancelled))
-                        default: ()
+                        default:
+                            timer.invalidate()
+                            completion(.failure(exportSession.error ?? Media.Error.cancelled))
                         }
                     }
                 }
