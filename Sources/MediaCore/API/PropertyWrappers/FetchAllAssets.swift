@@ -41,6 +41,8 @@ public struct FetchAllAssets {
     /// (sort by `creationDate descending`).
     ///
     public init() {
+        // Unscoped PhotoKit fetches otherwise omit assets synced from a Mac or PC.
+        options.includeAssetSourceTypes = [.typeUserLibrary, .typeiTunesSynced]
 //        options.sortDescriptors = [defaultSort.sortDescriptor]
     }
 
@@ -63,6 +65,11 @@ public struct FetchAllAssets {
         includeOnlyFavorites: Bool = false
     ) {
         self.assetCollection = assetCollection
+
+        if assetCollection == nil {
+            // Leave album-scoped fetches inferred so Shared Albums still work.
+            options.includeAssetSourceTypes = [.typeUserLibrary, .typeiTunesSynced]
+        }
         
 //        var sortKeys = sort
 //        sortKeys.insert(defaultSort)

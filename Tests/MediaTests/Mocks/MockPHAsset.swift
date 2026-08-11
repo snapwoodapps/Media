@@ -9,6 +9,7 @@ import Photos
 
 final class MockPHAsset: PHAsset {
     static var fetchResult = MockPHAssetsFetchResult()
+    static var lastFetchOptions: PHFetchOptions?
 
     var localIdentifierToReturn = UUID().uuidString
     var mediaTypeToReturn: PHAssetMediaType = .image
@@ -22,11 +23,13 @@ final class MockPHAsset: PHAsset {
     override var isFavorite: Bool { isFavoriteToReturn }
 
     override class func fetchAssets(with options: PHFetchOptions?) -> PHFetchResult<PHAsset> {
-        fetchResult
+        lastFetchOptions = options
+        return fetchResult
     }
 
     override class func fetchAssets(in assetCollection: PHAssetCollection, options: PHFetchOptions?) -> PHFetchResult<PHAsset> {
-        fetchResult
+        lastFetchOptions = options
+        return fetchResult
     }
 
     override func requestContentEditingInput(
